@@ -10,6 +10,7 @@ interface BlurContainerProps {
   animate?: boolean;
   delay?: number;
   className?: string;
+  colorVariant?: 'default' | 'blue' | 'purple' | 'teal' | 'rose';
 }
 
 const BlurContainer = ({
@@ -18,13 +19,30 @@ const BlurContainer = ({
   animate = false,
   delay = 0,
   className,
+  colorVariant = 'default',
   children,
   ...props
 }: BlurContainerProps & Omit<React.HTMLAttributes<HTMLDivElement>, 'animate'>) => {
   const blurIntensity = {
-    light: 'backdrop-blur-sm bg-white/60',
-    medium: 'backdrop-blur-md bg-white/70',
-    heavy: 'backdrop-blur-lg bg-white/80',
+    light: 'backdrop-blur-sm',
+    medium: 'backdrop-blur-md',
+    heavy: 'backdrop-blur-lg',
+  };
+
+  const colorVariants = {
+    default: 'bg-white/70',
+    blue: 'bg-blue-50/80',
+    purple: 'bg-purple-50/80',
+    teal: 'bg-teal-50/80',
+    rose: 'bg-rose-50/80',
+  };
+
+  const borderVariants = {
+    default: 'border-white/20',
+    blue: 'border-blue-200/40',
+    purple: 'border-purple-200/40',
+    teal: 'border-teal-200/40',
+    rose: 'border-rose-200/40',
   };
 
   if (animate) {
@@ -37,7 +55,8 @@ const BlurContainer = ({
         className={cn(
           'rounded-2xl shadow-sm',
           blurIntensity[intensity],
-          border ? 'border border-white/20' : '',
+          colorVariants[colorVariant],
+          border ? `border ${borderVariants[colorVariant]}` : '',
           className
         )}
         {...props as any}
@@ -52,7 +71,8 @@ const BlurContainer = ({
       className={cn(
         'rounded-2xl shadow-sm',
         blurIntensity[intensity],
-        border ? 'border border-white/20' : '',
+        colorVariants[colorVariant],
+        border ? `border ${borderVariants[colorVariant]}` : '',
         className
       )}
       {...props}
