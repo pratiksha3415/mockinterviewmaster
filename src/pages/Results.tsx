@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { CheckCircle, ArrowRight, Trophy, LineChart, Activity, Brain } from 'lucide-react';
+import { CheckCircle, ArrowRight, Trophy, Activity, Brain } from 'lucide-react';
 import Navbar from '@/components/layout/Navbar';
 import { Button } from '@/components/ui/button';
 import BlurContainer from '@/components/ui/BlurContainer';
@@ -34,6 +34,30 @@ const Results = () => {
     // Make sure we have results data
     if (!state) {
       navigate('/dashboard');
+      return;
+    }
+    
+    // Save this interview to user's history
+    try {
+      const userData = JSON.parse(user);
+      const userId = userData.id;
+      const historyKey = `interview_history_${userId}`;
+      
+      // Get existing history or create new array
+      const existingHistory = JSON.parse(localStorage.getItem(historyKey) || '[]');
+      
+      // Add this interview to history
+      existingHistory.push({
+        type: state.type,
+        questionsAnswered: state.questionsAnswered,
+        metrics: state.metrics || null,
+        timestamp: new Date().toISOString(),
+      });
+      
+      // Save updated history
+      localStorage.setItem(historyKey, JSON.stringify(existingHistory));
+    } catch (error) {
+      console.error('Error saving interview history:', error);
     }
   }, [navigate, state]);
   
@@ -184,13 +208,21 @@ const Results = () => {
           
           <BlurContainer className="p-8 mb-8" animate={true}>
             <motion.div
-              variants={containerVariants}
-              initial="hidden"
-              animate="visible"
               className="mb-8"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ 
+                delayChildren: 0.3,
+                staggerChildren: 0.2 
+              }}
             >
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <motion.div variants={statVariants} className="bg-interview-blue-light p-6 rounded-xl text-center relative overflow-hidden shadow-sm">
+                <motion.div 
+                  className="bg-interview-blue-light p-6 rounded-xl text-center relative overflow-hidden shadow-sm"
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 25 }}
+                >
                   <div className="absolute inset-0 bg-gradient-to-br from-interview-blue/10 to-interview-blue/0 z-0"></div>
                   <div className="relative z-10">
                     <div className="mb-2 inline-flex items-center justify-center p-2 bg-white/50 rounded-full">
@@ -201,7 +233,12 @@ const Results = () => {
                   </div>
                 </motion.div>
                 
-                <motion.div variants={statVariants} className="bg-gray-50 p-6 rounded-xl text-center relative overflow-hidden shadow-sm">
+                <motion.div 
+                  className="bg-gray-50 p-6 rounded-xl text-center relative overflow-hidden shadow-sm"
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 25, delay: 0.1 }}
+                >
                   <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-50/0 z-0"></div>
                   <div className="relative z-10">
                     <div className="mb-2 inline-flex items-center justify-center p-2 bg-white/50 rounded-full">
@@ -212,7 +249,12 @@ const Results = () => {
                   </div>
                 </motion.div>
                 
-                <motion.div variants={statVariants} className="bg-gray-50 p-6 rounded-xl text-center relative overflow-hidden shadow-sm">
+                <motion.div 
+                  className="bg-gray-50 p-6 rounded-xl text-center relative overflow-hidden shadow-sm"
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ type: "spring", stiffness: 300, damping: 25, delay: 0.2 }}
+                >
                   <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-gray-50/0 z-0"></div>
                   <div className="relative z-10">
                     <div className="mb-2 inline-flex items-center justify-center p-2 bg-white/50 rounded-full">

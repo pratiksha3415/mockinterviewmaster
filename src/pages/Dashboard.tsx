@@ -2,21 +2,10 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import Navbar from '@/components/layout/Navbar';
 import { Button } from '@/components/ui/button';
 import BlurContainer from '@/components/ui/BlurContainer';
-import { Code, Users, Briefcase, TrendingUp, History, FileText } from 'lucide-react';
-
-const data = [
-  { day: 'Mon', score: 68 },
-  { day: 'Tue', score: 72 },
-  { day: 'Wed', score: 75 },
-  { day: 'Thu', score: 70 },
-  { day: 'Fri', score: 80 },
-  { day: 'Sat', score: 82 },
-  { day: 'Sun', score: 85 },
-];
+import { Code, Users, Briefcase, FileText } from 'lucide-react';
 
 interface User {
   name: string;
@@ -27,6 +16,7 @@ interface User {
 const Dashboard = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState<User | null>(null);
+  const [hasHistory, setHasHistory] = useState(false);
   
   useEffect(() => {
     // Check if user is logged in
@@ -39,6 +29,10 @@ const Dashboard = () => {
     try {
       const parsedUser = JSON.parse(storedUser);
       setUser(parsedUser);
+      
+      // Check if user has any interview history
+      const userHistory = localStorage.getItem(`interview_history_${parsedUser.id}`);
+      setHasHistory(!!userHistory && JSON.parse(userHistory).length > 0);
     } catch (error) {
       console.error("Error parsing user data:", error);
       navigate('/auth?type=login');
@@ -63,106 +57,71 @@ const Dashboard = () => {
             <p className="text-gray-600">Track your progress and continue practicing your interview skills.</p>
           </motion.div>
           
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+          {hasHistory ? (
+            // Only show this section if user has interview history
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+              >
+                <BlurContainer className="p-6 h-full card-hover">
+                  <div className="flex flex-col h-full">
+                    <div className="p-3 rounded-full bg-interview-blue-light w-fit mb-4">
+                      <FileText className="h-6 w-6 text-interview-blue" />
+                    </div>
+                    <h3 className="text-xl font-bold mb-2">Your Stats</h3>
+                    <p className="text-gray-600 mb-4">Your interview practice statistics.</p>
+                    <div className="flex justify-center items-center h-40 text-center">
+                      <p>Your interview statistics will appear here after completing interviews.</p>
+                    </div>
+                  </div>
+                </BlurContainer>
+              </motion.div>
+              
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className="md:col-span-2"
+              >
+                <BlurContainer className="p-6 h-full card-hover">
+                  <div className="flex flex-col h-full">
+                    <div className="p-3 rounded-full bg-interview-blue-light w-fit mb-4">
+                      <FileText className="h-6 w-6 text-interview-blue" />
+                    </div>
+                    <h3 className="text-xl font-bold mb-2">Recent Activity</h3>
+                    <p className="text-gray-600 mb-4">Your recent interview sessions.</p>
+                    <div className="flex justify-center items-center h-40 text-center">
+                      <p>Your recent interview activities will appear here after completing interviews.</p>
+                    </div>
+                  </div>
+                </BlurContainer>
+              </motion.div>
+            </div>
+          ) : (
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.1 }}
+              className="mb-10"
             >
-              <BlurContainer className="p-6 h-full card-hover">
-                <div className="flex flex-col h-full">
-                  <div className="p-3 rounded-full bg-interview-blue-light w-fit mb-4">
-                    <TrendingUp className="h-6 w-6 text-interview-blue" />
-                  </div>
-                  <h3 className="text-xl font-bold mb-2">Progress</h3>
-                  <p className="text-gray-600 mb-4">Your interview skill improvement over time.</p>
-                  <div className="h-40 mt-2">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <LineChart data={data}>
-                        <CartesianGrid strokeDasharray="3 3" vertical={false} />
-                        <XAxis dataKey="day" />
-                        <YAxis domain={[0, 100]} />
-                        <Tooltip />
-                        <Line 
-                          type="monotone" 
-                          dataKey="score" 
-                          stroke="#2196F3" 
-                          strokeWidth={2} 
-                          dot={{ r: 4 }} 
-                          activeDot={{ r: 6 }} 
-                        />
-                      </LineChart>
-                    </ResponsiveContainer>
-                  </div>
-                </div>
-              </BlurContainer>
-            </motion.div>
-            
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
-              <BlurContainer className="p-6 h-full card-hover">
-                <div className="flex flex-col h-full">
-                  <div className="p-3 rounded-full bg-interview-blue-light w-fit mb-4">
-                    <History className="h-6 w-6 text-interview-blue" />
-                  </div>
-                  <h3 className="text-xl font-bold mb-2">Recent Activity</h3>
-                  <p className="text-gray-600 mb-4">Your recent interview sessions.</p>
-                  <div className="space-y-3 mt-2 flex-grow">
-                    <div className="p-3 bg-gray-50 rounded-lg border border-gray-100">
-                      <div className="font-medium">Technical Interview</div>
-                      <div className="text-sm text-gray-500">Completed 2 days ago • Score: 82%</div>
-                    </div>
-                    <div className="p-3 bg-gray-50 rounded-lg border border-gray-100">
-                      <div className="font-medium">HR Interview</div>
-                      <div className="text-sm text-gray-500">Completed 5 days ago • Score: 75%</div>
-                    </div>
-                  </div>
-                  <div className="mt-4">
-                    <Link to="/history">
-                      <Button variant="outline" className="w-full">View All History</Button>
-                    </Link>
-                  </div>
-                </div>
-              </BlurContainer>
-            </motion.div>
-            
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-            >
-              <BlurContainer className="p-6 h-full card-hover">
-                <div className="flex flex-col h-full">
+              <BlurContainer className="p-6 h-full">
+                <div className="flex flex-col items-center text-center py-6">
                   <div className="p-3 rounded-full bg-interview-blue-light w-fit mb-4">
                     <FileText className="h-6 w-6 text-interview-blue" />
                   </div>
-                  <h3 className="text-xl font-bold mb-2">Your Stats</h3>
-                  <p className="text-gray-600 mb-4">Your interview practice statistics.</p>
-                  <div className="space-y-4 mt-2 flex-grow">
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Interviews Completed</span>
-                      <span className="font-medium">12</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Questions Answered</span>
-                      <span className="font-medium">48</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Average Score</span>
-                      <span className="font-medium">76%</span>
-                    </div>
-                    <div className="flex justify-between items-center">
-                      <span className="text-gray-600">Strongest Category</span>
-                      <span className="font-medium">Technical</span>
-                    </div>
-                  </div>
+                  <h3 className="text-xl font-bold mb-2">No Interview History Yet</h3>
+                  <p className="text-gray-600 mb-6 max-w-md">Complete your first interview to start building your performance statistics and history.</p>
+                  <Link to="/interviews">
+                    <Button className="bg-interview-blue hover:bg-interview-blue-dark">
+                      Start Your First Interview
+                    </Button>
+                  </Link>
                 </div>
               </BlurContainer>
             </motion.div>
-          </div>
+          )}
           
           <motion.div
             initial={{ opacity: 0, y: 20 }}

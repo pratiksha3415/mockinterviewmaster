@@ -1,5 +1,6 @@
 
 import "./App.css";
+import { useEffect } from "react";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -16,26 +17,36 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner position="top-right" expand={true} />
-      <BrowserRouter>
-        <AnimatePresence mode="wait">
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/auth" element={<Auth />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/interviews" element={<InterviewSelect />} />
-            <Route path="/interviews/:type" element={<Interview />} />
-            <Route path="/results" element={<Results />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </AnimatePresence>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+const App = () => {
+  // Initialize localStorage structure if needed
+  useEffect(() => {
+    // Initialize users array if it doesn't exist
+    if (!localStorage.getItem('users')) {
+      localStorage.setItem('users', JSON.stringify([]));
+    }
+  }, []);
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <Toaster />
+        <Sonner position="top-right" expand={true} />
+        <BrowserRouter>
+          <AnimatePresence mode="wait">
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/auth" element={<Auth />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/interviews" element={<InterviewSelect />} />
+              <Route path="/interviews/:type" element={<Interview />} />
+              <Route path="/results" element={<Results />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </AnimatePresence>
+        </BrowserRouter>
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;

@@ -21,6 +21,7 @@ const AuthForm = () => {
   });
   
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormState({
@@ -32,31 +33,67 @@ const AuthForm = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
+    setError('');
     
-    // Simulate API call
-    setTimeout(() => {
-      // Mock successful auth
+    try {
       if (formType === 'register') {
-        localStorage.setItem('user', JSON.stringify({
+        // Check if email already exists
+        const existingUsers = JSON.parse(localStorage.getItem('users') || '[]');
+        const userExists = existingUsers.some((user: any) => user.email === formState.email);
+        
+        if (userExists) {
+          setError('An account with this email already exists');
+          setLoading(false);
+          return;
+        }
+        
+        // Create new user
+        const newUser = {
+          id: Date.now().toString(),
           name: formState.name,
           email: formState.email,
-          id: Date.now().toString(),
-        }));
+          password: formState.password, // In a real app, this would be hashed
+        };
+        
+        // Add to users list
+        existingUsers.push(newUser);
+        localStorage.setItem('users', JSON.stringify(existingUsers));
+        
+        // Set current user (without password)
+        const { password, ...userWithoutPassword } = newUser;
+        localStorage.setItem('user', JSON.stringify(userWithoutPassword));
+        
+        // Create empty interview history for this user
+        localStorage.setItem(`interview_history_${newUser.id}`, JSON.stringify([]));
         
         toast.success('Account created successfully!');
-      } else {
-        localStorage.setItem('user', JSON.stringify({
-          name: 'User',
-          email: formState.email,
-          id: Date.now().toString(),
-        }));
+        
+      } else { // Login
+        const users = JSON.parse(localStorage.getItem('users') || '[]');
+        const user = users.find(
+          (u: any) => u.email === formState.email && u.password === formState.password
+        );
+        
+        if (!user) {
+          setError('Invalid email or password');
+          setLoading(false);
+          return;
+        }
+        
+        // Set current user (without password)
+        const { password, ...userWithoutPassword } = user;
+        localStorage.setItem('user', JSON.stringify(userWithoutPassword));
         
         toast.success('Logged in successfully!');
       }
       
       setLoading(false);
       navigate('/dashboard');
-    }, 1500);
+    } catch (error) {
+      console.error('Authentication error:', error);
+      setError('An unexpected error occurred');
+      setLoading(false);
+    }
   };
 
   return (
@@ -77,6 +114,12 @@ const AuthForm = () => {
               : 'Sign up to start mastering your interview skills'}
           </p>
         </div>
+        
+        {error && (
+          <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-600 rounded-md text-sm">
+            {error}
+          </div>
+        )}
         
         <form onSubmit={handleSubmit} className="space-y-6">
           {formType === 'register' && (
