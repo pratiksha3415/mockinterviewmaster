@@ -29,13 +29,13 @@ const Auth = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.6 }}
           transition={{ duration: 1.5 }}
-          className="absolute top-1/4 -left-20 w-96 h-96 bg-blue-400/10 rounded-full filter blur-3xl"
+          className="absolute top-1/4 -left-20 w-72 md:w-96 h-72 md:h-96 bg-blue-400/10 rounded-full filter blur-3xl"
         />
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.5 }}
           transition={{ duration: 1.5, delay: 0.3 }}
-          className="absolute bottom-1/3 -right-20 w-80 h-80 bg-purple-400/10 rounded-full filter blur-3xl"
+          className="absolute bottom-1/3 -right-20 w-64 md:w-80 h-64 md:h-80 bg-purple-400/10 rounded-full filter blur-3xl"
         />
         <motion.div 
           animate={{ 
@@ -47,7 +47,7 @@ const Auth = () => {
             repeat: Infinity,
             repeatType: "reverse", 
           }}
-          className="absolute top-10 right-1/4 w-64 h-64 bg-teal-300/10 rounded-full filter blur-3xl"
+          className="absolute top-10 right-1/4 w-48 md:w-64 h-48 md:h-64 bg-teal-300/10 rounded-full filter blur-3xl"
         />
         <motion.div 
           animate={{ 
@@ -59,21 +59,21 @@ const Auth = () => {
             repeat: Infinity,
             repeatType: "reverse", 
           }}
-          className="absolute bottom-10 left-1/3 w-72 h-72 bg-rose-300/10 rounded-full filter blur-3xl"
+          className="absolute bottom-10 left-1/3 w-56 md:w-72 h-56 md:h-72 bg-rose-300/10 rounded-full filter blur-3xl"
         />
       </div>
 
       <Navbar />
       
-      <div className="pt-32 pb-20 px-6">
+      <div className="pt-24 md:pt-32 pb-16 md:pb-20 px-4 md:px-6">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6 }}
-          className="max-w-md mx-auto"
+          className="w-full max-w-md mx-auto"
         >
           <BlurContainer 
-            className="p-8 shadow-xl" 
+            className="p-6 md:p-8 shadow-xl" 
             intensity="heavy"
             animate={true}
             colorVariant="purple"
@@ -82,7 +82,7 @@ const Auth = () => {
           </BlurContainer>
           
           <motion.div 
-            className="text-center mt-6 text-gray-600 text-sm font-medium"
+            className="text-center mt-4 md:mt-6 text-gray-600 text-xs md:text-sm font-medium"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.5, duration: 0.5 }}
@@ -94,7 +94,7 @@ const Auth = () => {
 
       {/* Floating elements with colors */}
       <motion.div
-        className="absolute bottom-10 right-10 w-3 h-3 rounded-full bg-blue-500"
+        className="absolute bottom-10 right-10 w-2 md:w-3 h-2 md:h-3 rounded-full bg-blue-500"
         animate={{
           y: [0, -10, 0],
           opacity: [0.7, 1, 0.7],
@@ -106,7 +106,7 @@ const Auth = () => {
         }}
       />
       <motion.div
-        className="absolute bottom-20 right-20 w-4 h-4 rounded-full bg-purple-500/60"
+        className="absolute bottom-20 right-20 w-3 md:w-4 h-3 md:h-4 rounded-full bg-purple-500/60"
         animate={{
           y: [0, -15, 0],
           opacity: [0.5, 0.8, 0.5],
@@ -119,7 +119,7 @@ const Auth = () => {
         }}
       />
       <motion.div
-        className="absolute bottom-15 right-32 w-2 h-2 rounded-full bg-teal-400/40"
+        className="absolute bottom-15 right-32 w-1.5 md:w-2 h-1.5 md:h-2 rounded-full bg-teal-400/40"
         animate={{
           y: [0, -8, 0],
           opacity: [0.3, 0.6, 0.3],
@@ -132,7 +132,7 @@ const Auth = () => {
         }}
       />
       <motion.div
-        className="absolute bottom-30 left-10 w-3 h-3 rounded-full bg-pink-500/50"
+        className="absolute bottom-30 left-10 w-2 md:w-3 h-2 md:h-3 rounded-full bg-pink-500/50"
         animate={{
           y: [0, -12, 0],
           opacity: [0.4, 0.7, 0.4],

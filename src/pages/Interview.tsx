@@ -57,11 +57,11 @@ const Interview = () => {
     <div className="min-h-screen bg-interview-slate-light">
       <Navbar />
       
-      <div className="pt-24 pb-20 px-6">
+      <div className="pt-20 md:pt-24 pb-16 md:pb-20 px-4 md:px-6">
         <div className="container mx-auto">
-          <div className="mb-8 text-center">
-            <h1 className="text-3xl font-bold mb-2">{titleMap[interviewType]}</h1>
-            <p className="text-gray-600">
+          <div className="mb-6 md:mb-8 text-center">
+            <h1 className="text-2xl md:text-3xl font-bold mb-2">{titleMap[interviewType]}</h1>
+            <p className="text-sm md:text-base text-gray-600">
               Answer the questions as you would in a real interview. The AI will provide feedback on your responses.
             </p>
           </div>
@@ -73,14 +73,14 @@ const Interview = () => {
                 onSelectMode={handleModeSelect}
               />
               
-              <BlurContainer className="p-8 mb-8 text-center">
-                <h3 className="text-xl font-bold mb-4">Ready to begin your {titleMap[interviewType]}?</h3>
-                <p className="mb-6 text-gray-600">
+              <BlurContainer className="p-6 md:p-8 mb-6 md:mb-8 text-center">
+                <h3 className="text-lg md:text-xl font-bold mb-3 md:mb-4">Ready to begin your {titleMap[interviewType]}?</h3>
+                <p className="mb-5 md:mb-6 text-sm md:text-base text-gray-600">
                   You'll be presented with a series of questions. Take your time to provide thoughtful answers.
                 </p>
                 <button
                   onClick={startSession}
-                  className="px-8 py-3 bg-interview-blue text-white rounded-md hover:bg-interview-blue-dark transition-colors"
+                  className="px-6 md:px-8 py-2 md:py-3 bg-interview-blue text-white rounded-md hover:bg-interview-blue-dark transition-colors"
                 >
                   Start Interview
                 </button>

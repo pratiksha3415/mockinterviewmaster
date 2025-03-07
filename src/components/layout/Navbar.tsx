@@ -37,13 +37,13 @@ const Navbar = () => {
       )}
     >
       <div className="max-w-7xl mx-auto">
-        <div className="flex items-center justify-between h-16">
+        <div className="flex items-center justify-between h-14 md:h-16">
           {/* Logo */}
           <Link 
             to="/" 
-            className="text-xl font-semibold text-interview-blue-dark hover:text-interview-blue transition-colors flex items-center gap-2"
+            className="text-lg md:text-xl font-semibold text-interview-blue-dark hover:text-interview-blue transition-colors flex items-center gap-1 md:gap-2"
           >
-            <span className="text-2xl">MockMaster</span>
+            <span className="text-xl md:text-2xl">MockMaster</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -103,8 +103,9 @@ const Navbar = () => {
               size="icon"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Toggle menu"
+              className="p-1 h-auto"
             >
-              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+              {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
             </Button>
           </div>
         </div>
@@ -112,7 +113,7 @@ const Navbar = () => {
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
           <div className="md:hidden pt-2 pb-4 animate-fade-in">
-            <div className="flex flex-col space-y-3">
+            <div className="flex flex-col space-y-2">
               <Link to="/" className={cn(
                 "px-3 py-2 rounded-md text-base font-medium transition-colors",
                 location.pathname === '/' ? 'bg-interview-blue-light text-interview-blue' : 'text-slate-600'
