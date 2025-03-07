@@ -117,13 +117,14 @@ const generateEnhancedFeedback = (response, question, type, questionIndex) => {
 
 interface InterviewSessionProps {
   type: 'technical' | 'behavioral' | 'hr';
+  responseMode: 'text' | 'audio' | 'video';
 }
 
-const InterviewSession: React.FC<InterviewSessionProps> = ({ type }) => {
+const InterviewSession: React.FC<InterviewSessionProps> = ({ type, responseMode: initialResponseMode }) => {
   const navigate = useNavigate();
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [response, setResponse] = useState('');
-  const [responseMode, setResponseMode] = useState<'text' | 'audio' | 'video'>('text');
+  const [responseMode, setResponseMode] = useState<'text' | 'audio' | 'video'>(initialResponseMode);
   const [showFeedback, setShowFeedback] = useState(false);
   const [feedback, setFeedback] = useState('');
   const [metrics, setMetrics] = useState<{

@@ -20,15 +20,17 @@ const InterviewModeSelector: React.FC<InterviewModeSelectorProps> = ({
       description: 'Type your answers and receive detailed feedback on content and clarity.',
       icon: <MessageSquare className="h-8 w-8 text-interview-blue" />,
       bgColor: 'bg-yellow-100',
-      iconContainer: 'bg-yellow-50'
+      iconContainer: 'bg-yellow-50',
+      colorVariant: 'yellow'
     },
     {
       id: 'audio',
       title: 'Audio Response Mode',
       description: 'Speak your answers naturally and get feedback on tone and delivery.',
-      icon: <Mic className="h-8 w-8 text-red-500" />,
-      bgColor: 'bg-red-100',
-      iconContainer: 'bg-red-50'
+      icon: <Mic className="h-8 w-8 text-rose-500" />,
+      bgColor: 'bg-rose-100',
+      iconContainer: 'bg-rose-50',
+      colorVariant: 'rose'
     },
     {
       id: 'video',
@@ -36,7 +38,8 @@ const InterviewModeSelector: React.FC<InterviewModeSelectorProps> = ({
       description: 'Practice with your camera to improve body language and eye contact.',
       icon: <Video className="h-8 w-8 text-blue-500" />,
       bgColor: 'bg-blue-100',
-      iconContainer: 'bg-blue-50'
+      iconContainer: 'bg-blue-50',
+      colorVariant: 'blue'
     }
   ];
 
@@ -54,7 +57,7 @@ const InterviewModeSelector: React.FC<InterviewModeSelectorProps> = ({
           >
             <BlurContainer 
               className={`p-6 ${selectedMode === mode.id ? 'ring-2 ring-interview-blue' : ''}`}
-              colorVariant={mode.id === 'text' ? 'yellow' : mode.id === 'audio' ? 'red' : 'blue'}
+              colorVariant={mode.colorVariant as 'blue' | 'purple' | 'teal' | 'default' | 'rose'}
             >
               <div className="flex flex-col items-center text-center">
                 <div className={`w-16 h-16 ${mode.iconContainer} rounded-full flex items-center justify-center mb-4`}>
