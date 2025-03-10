@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import Navbar from '@/components/layout/Navbar';
@@ -43,8 +42,9 @@ const Interview = () => {
   };
   
   const handleModeSelect = (mode: 'text' | 'audio' | 'video') => {
-    if (mode !== 'text') {
-      toast.info('Coming soon! This feature is under development. Using text mode for now.');
+    if (mode === 'video') {
+      toast.info('Video mode is coming soon! Using text mode for now.');
+      return;
     }
     setResponseMode(mode);
   };
