@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { motion } from 'framer-motion';
 import { MessageSquare, Mic, Video } from 'lucide-react';
@@ -57,7 +56,7 @@ const InterviewModeSelector: React.FC<InterviewModeSelectorProps> = ({
           >
             <BlurContainer 
               className={`p-4 md:p-6 ${selectedMode === mode.id ? 'ring-2 ring-interview-blue' : ''}`}
-              colorVariant={mode.colorVariant as 'blue' | 'purple' | 'teal' | 'default' | 'rose'}
+              colorVariant={mode.colorVariant as 'blue' | 'purple' | 'teal' | 'default' | 'rose' | 'yellow'}
             >
               <div className="flex flex-col items-center text-center">
                 <div className={`w-12 h-12 md:w-16 md:h-16 ${mode.iconContainer} rounded-full flex items-center justify-center mb-3 md:mb-4`}>
